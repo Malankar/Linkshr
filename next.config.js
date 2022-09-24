@@ -4,4 +4,14 @@ const nextConfig = {
   swcMinify: true,
 }
 
-module.exports = nextConfig
+module.exports = nextConfig,{
+  webpack: (config, { isServer }) => {
+      if (!isServer) {
+          config.node = {
+              net: 'empty'
+          };
+      }
+
+      return config;
+  }
+}
