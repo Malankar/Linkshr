@@ -1,6 +1,9 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 const Heading = () => {
+  const router = useRouter();
   return (
     <div className="text-center my-40 m-auto max-w-sm md:max-w-3xl">
       <div>
@@ -13,8 +16,8 @@ const Heading = () => {
           chain you are viewing them in.
         </p>
 
-        <a
-          href="#"
+        <span
+          onClick={() => router.replace("/#features")}
           className="mt-10 inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
         >
           Read More
@@ -30,7 +33,7 @@ const Heading = () => {
               clipRule="evenodd"
             ></path>
           </svg>
-        </a>
+        </span>
       </div>
     </div>
   );

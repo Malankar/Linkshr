@@ -11,9 +11,8 @@ import axios from "axios";
 import Head from "next/head";
 import { RiFileEditFill, RiShareBoxLine } from "react-icons/ri";
 import { AiFillCheckCircle } from "react-icons/ai";
-// import Error from "../../components/Error";
-import { UIStore } from "../../store/UIStore";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Id = ({ group, user }) => {
   const loggedInUser = useClient();
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -23,6 +22,7 @@ const Id = ({ group, user }) => {
   const [forked, setForked] = useState(false);
   const [groupTitle, setGroupTitle] = useState(group.name);
   const [forkedGroups, setForkedGroups] = useState(null);
+  const [isValidUrl, setIsValidUrl] = useState(false);
   const router = useRouter();
 
   let [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +45,7 @@ const Id = ({ group, user }) => {
         const res = axios({
           method: "GET",
           url: `/api/v1/getGroup`,
-          params: { id: userId },
+          params: { id: userId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
         })
           .then((data) => {
             setForkedGroups(data.data.forkedByUser);
@@ -69,6 +69,26 @@ const Id = ({ group, user }) => {
     }
   }, [loggedInUser, forkedGroups, group]);
 
+  function Error(msg) {
+    const toastMsg = (msg) =>
+      toast.error(msg, {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+      });
+    toastMsg(msg);
+  }
+  useEffect(() => {
+    if (error !== "") {
+      Error(error);
+      setError("");
+    }
+  }, [error]);
+
   const cloneGroup = () => {
     if (forked == true) {
       console.log(forked);
@@ -77,7 +97,10 @@ const Id = ({ group, user }) => {
       const res = axios({
         method: "POST",
         url: "/api/v1/cloneGroup",
-        params: { id: group._id },
+        params: {
+          id: group._id,
+          apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+        },
         data: {
           name: groupTitle,
           links: group.links,
@@ -99,15 +122,18 @@ const Id = ({ group, user }) => {
   };
   function createLink(e) {
     e.preventDefault();
-    if (!isValidHttpUrl(url)) {
-      setError("Invalid Url");
-      return;
-    }
     if (url !== "" && urlTitle !== "") {
+      if (!isValidUrl) {
+        setError("Invalid Url");
+        return;
+      }
       const res = axios({
         method: "PATCH",
         url: "/api/v1/createLink",
-        params: { id: group._id },
+        params: {
+          id: group._id,
+          apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+        },
         data: {
           title: urlTitle,
           link: url,
@@ -119,37 +145,35 @@ const Id = ({ group, user }) => {
           setUrlTitle("");
           router.push(router.asPath);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setError("Link Exists");
+        });
     } else {
       setError("Enter URL & Title");
     }
   }
   // async function isValidHttpUrl(isUrl) {
-  const isValidHttpUrl = useCallback(
-    async (isUrl) => {
-      const data = { url: isUrl };
-      const response = await fetch("/api/v1/getTitle/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+  const isValidHttpUrl = useCallback(async (isUrl) => {
+    const data = { url: isUrl };
+    const response = await fetch("/api/v1/getTitle/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.title) {
+          setUrlTitle(data.title);
+          setIsValidUrl(true);
+          return true;
+        } else {
+          setIsValidUrl(false);
+        }
       })
-        .then((response) => response.json())
-        .catch((err) => console.log(err))
-        .then((data) => {
-          if (data.title) {
-            setUrlTitle(data.title);
-            return true;
-          } else {
-            setError("Invalid URL");
-            console.log(error);
-            return false;
-          }
-        });
-    },
-    [error]
-  );
+      .catch((err) => console.log(err));
+  }, []);
   function openAllLinks() {
     group.links.forEach((element) => {
       window.open(element.link, "_blank");
@@ -159,6 +183,7 @@ const Id = ({ group, user }) => {
     const res = axios({
       method: "PATCH",
       url: "/api/v1/editTitle",
+      params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
       data: {
         id: group._id,
         name: groupTitle,
@@ -186,125 +211,140 @@ const Id = ({ group, user }) => {
     .reverse()
     .join("-");
   return (
-    <div className="overflow-auto scrollbar h-screen">
-      <Head>
-        <title>{group.name}</title>
-      </Head>
-      <LandingNav />
-      <div className="text-white max-w-md md:max-w-xl lg:max-w-5xl md:m-auto">
-        <nav className=" border-gray-200 px-2 sm:px-4 py-2.5 rounded bg-[#1B1B1B]">
-          <div className="container p-5 flex flex-wrap justify-between items-center mx-auto">
-            <div className="flex items-center">
-              <FaLayerGroup className="w-10 h-10" />
-              <input
-                type="text"
-                className=" rounded-lg capitalize p-1.5 ml-3 bg-transparent text-2xl border-blue-600"
-                size={groupTitle.length}
-                defaultValue={groupTitle}
-                disabled={isLoggedIn || isAuthorized ? "" : "disabled"}
-                placeholder="Group Name"
-                onChange={(e) => setGroupTitle(e.target.value)}
-                required
-              />
-              <div className="space-x-4 flex items-center">
-                {isAuthorized && (
-                  <RiFileEditFill
-                    onClick={changeTitle}
+    <>
+      <div className="overflow-auto scrollbar h-screen">
+        <Head>
+          <title>{group.name}</title>
+        </Head>
+        <LandingNav />
+        <div className="text-white max-w-md md:max-w-xl lg:max-w-5xl md:m-auto">
+          <nav className=" border-gray-200 px-2 sm:px-4 py-2.5 rounded bg-[#1B1B1B]">
+            <div className="container p-5 flex flex-wrap justify-between items-center mx-auto">
+              <div className="flex items-center">
+                <FaLayerGroup className="w-10 h-10" />
+                <input
+                  type="text"
+                  className=" rounded-lg capitalize p-1.5 ml-3 bg-transparent text-2xl border-blue-600"
+                  size={groupTitle.length}
+                  defaultValue={groupTitle}
+                  disabled={isLoggedIn || isAuthorized ? "" : "disabled"}
+                  placeholder="Group Name"
+                  onChange={(e) => setGroupTitle(e.target.value)}
+                  required
+                />
+                <div className="space-x-4 flex items-center">
+                  {isAuthorized && (
+                    <RiFileEditFill
+                      onClick={changeTitle}
+                      className="text-blue-300 w-5 h-5 cursor-pointer"
+                    />
+                  )}
+
+                  <RiShareBoxLine
+                    onClick={openAllLinks}
                     className="text-blue-300 w-5 h-5 cursor-pointer"
                   />
-                )}
-
-                <RiShareBoxLine
-                  onClick={openAllLinks}
-                  className="text-blue-300 w-5 h-5 cursor-pointer"
-                />
-                {isLoggedIn && (
-                  <div
-                    onClick={cloneGroup}
-                    className=" flex items-center cursor-pointer bg-gray-700 px-3 py-1 rounded-full"
-                  >
-                    {forked ? (
-                      <AiFillCheckCircle
-                        onClick={cloneGroup}
-                        className="text-green-300 w-5 h-5 "
-                      />
-                    ) : (
-                      <FaClone className="text-blue-300 w-4 h-4 " />
-                    )}
-                    <p className="ml-2">{forked ? "Cloned" : "Clone"}</p>
-                  </div>
-                )}
+                  {isLoggedIn && (
+                    <div
+                      onClick={cloneGroup}
+                      className=" flex items-center cursor-pointer bg-gray-700 px-3 py-1 rounded-full"
+                    >
+                      {forked ? (
+                        <AiFillCheckCircle
+                          onClick={cloneGroup}
+                          className="text-green-300 w-5 h-5 "
+                        />
+                      ) : (
+                        <FaClone className="text-blue-300 w-4 h-4 " />
+                      )}
+                      <p className="ml-2 hidden md:block">
+                        {forked ? "Cloned" : "Clone"}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="md:order-2 bg-neutral-800 p-3 rounded-lg mt-6 md:mt-0">
+                <p className="">
+                  Created By: <span className="font-normal">{user.name}</span>
+                </p>
+                <p className="">
+                  Date:<span className="font-normal"> {createdDate}</span>
+                </p>
               </div>
             </div>
-            <div className="md:order-2 bg-neutral-800 p-3 rounded-lg mt-6 md:mt-0">
-              <p className="">
-                Created By: <span className="font-normal">{user.name}</span>
-              </p>
-              <p className="">
-                Date:<span className="font-normal"> {createdDate}</span>
-              </p>
+          </nav>
+        </div>
+        {/* All Links */}
+
+        <div className="pt-5 grid grid-cols-1 max-w-lg md:max-w-xl lg:max-w-5xl md:m-auto gap-4 text-white">
+          {group.links.map((data) => (
+            <InLink
+              link={data.link}
+              title={data.title}
+              key={data._id}
+              id={data._id}
+              name={group.name}
+              isAuthorized={isAuthorized}
+              paramsId={group._id}
+            />
+          ))}
+        </div>
+
+        <hr className="my-4 mx-auto w-48 h-1 rounded border-0 md:my-10 bg-gray-700" />
+        {/* add Link */}
+        {isAuthorized && (
+          <form className="pt-5 grid grid-cols-1 max-w-lg md:max-w-xl lg:max-w-5xl md:m-auto gap-4 text-white">
+            <div className="text-white block items-center justify-between p-5 mx-8 rounded-lg  bg-neutral-800">
+              <h1 className="text-xl ml-1 mb-4 font-semibold text-white">
+                Create A New Link
+              </h1>
+              <div className="space-y-4">
+                <input
+                  type="search"
+                  id="default-search"
+                  className="block p-4 pl-5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Paste a Link"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  required
+                />
+                <input
+                  type="search"
+                  id="default-search"
+                  className="block p-4 pl-5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Check the Title"
+                  value={urlTitle}
+                  onChange={(e) => setUrlTitle(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className=" m-auto mt-5 text-white">
+                <button
+                  type="submit"
+                  className="text-white font-medium rounded-lg text-md px-8 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+                  onClick={createLink}
+                >
+                  Create
+                </button>
+              </div>
             </div>
-          </div>
-        </nav>
+          </form>
+        )}
       </div>
-      {/* All Links */}
-
-      <div className="pt-5 grid grid-cols-1 max-w-lg md:max-w-xl lg:max-w-5xl md:m-auto gap-4 text-white">
-        {group.links.map((data) => (
-          <InLink
-            link={data.link}
-            title={data.title}
-            key={data._id}
-            id={data._id}
-            name={group.name}
-            isAuthorized={isAuthorized}
-            paramsId={group._id}
-          />
-        ))}
-      </div>
-
-      <hr className="my-4 mx-auto w-48 h-1 rounded border-0 md:my-10 bg-gray-700" />
-      {/* add Link */}
-      {isAuthorized && (
-        <form className="pt-5 grid grid-cols-1 max-w-lg md:max-w-xl lg:max-w-5xl md:m-auto gap-4 text-white">
-          <div className="text-white block items-center justify-between p-5 mx-8 rounded-lg  bg-neutral-800">
-            <h1 className="text-xl ml-1 mb-4 font-semibold text-white">
-              Create A New Link
-            </h1>
-            <div className="space-y-4">
-              <input
-                type="search"
-                id="default-search"
-                className="block p-4 pl-5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Paste a Link"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                required
-              />
-              <input
-                type="search"
-                id="default-search"
-                className="block p-4 pl-5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Check the Title"
-                value={urlTitle}
-                onChange={(e) => setUrlTitle(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className=" m-auto mt-5 text-white">
-              <button
-                type="submit"
-                className="text-white font-medium rounded-lg text-md px-8 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                onClick={createLink}
-              >
-                Create
-              </button>
-            </div>
-          </div>
-        </form>
-      )}
-    </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+      />
+    </>
   );
 };
 export async function getServerSideProps(context) {

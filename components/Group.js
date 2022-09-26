@@ -13,6 +13,7 @@ const Group = ({ title, id }) => {
     const res = axios({
       method: "DELETE",
       url: "/api/v1/deleteGroup",
+      params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
       data: {
         id,
       },

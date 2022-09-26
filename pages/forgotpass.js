@@ -1,44 +1,115 @@
-import React from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-const forgotpass = () => {
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import emailjs from "@emailjs/browser";
+import { useRouter } from "next/router";
+const Forgotpass = () => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  function Error(msg) {
+    const toastMsg = (msg) =>
+      toast.error(msg, {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+      });
+    toastMsg(msg);
+  }
+  async function handleClick(e) {
+    e.preventDefault();
+    if (email !== "") {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        const res = await axios({
+          method: "POST",
+          url: "/api/v1/forgotPass",
+          params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+          data: {
+            email,
+          },
+        })
+          .then((data) => {
+            if (data.status == 200) {
+              const user = data.data.data[0];
+              emailjs
+                .send(
+                  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+                  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+                  {
+                    to_name: user.name,
+                    msg_email: user.email,
+                    msg_password: user.password,
+                  },
+                  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+                )
+                .then(
+                  (result) => {
+                    console.log(result.text);
+                    router.push("/login");
+                  },
+                  (error) => {
+                    console.log(error.text);
+                  }
+                );
+            }
+          })
+          .catch((err) => {
+            setError("Email is not registered");
+            console.log(err);
+          });
+      } else {
+        setError("Wrong Email");
+      }
+    } else {
+      setError("Enter Email");
+    }
+  }
+  useEffect(() => {
+    if (error !== "") {
+      Error(error);
+      setError("");
+    }
+  }, [error]);
   return (
-    <div className="flex items-center justify-center h-screen">
-      <form>
-        <h1 className="text-4xl text-center mb-10 font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-          Linkshr
-        </h1>
-        <div>
-          <div className="mb-6">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Email address
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Your Email ID * "
-              required
-            />
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            <button
-              type="submit"
-              className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-64 sm:w-64 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Send Password
-            </button>
-            <div className="flex justify-center items-center w-full">
-              <hr className="my-8 w-64 h-1 bg-gray-200 rounded border-0 dark:bg-gray-700" />
-              <div className="absolute left-1/2 top-3/3 mb-1 px-3 bg-white -translate-x-1/2 dark:bg-[#1B1B1B] text-white">
-                OR
-              </div>
+    <>
+      <div className="flex items-center justify-center h-screen">
+        <form>
+          <h1 className="text-4xl text-center mb-10 font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            <Link href="/">Lnkshr</Link>
+          </h1>
+          <div>
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                Email address
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Your Email ID * "
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                required
+              />
             </div>
+            <div className="grid grid-cols-1 gap-4">
+              <button
+                onClick={handleClick}
+                className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-64 sm:w-64 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Send Password
+              </button>
 
-            <button
+              {/* <button
               type="button"
               className="text-gray-400 hover:text-gray-50 justify-around items-center bg-[#112e5e] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
             >
@@ -50,18 +121,30 @@ const forgotpass = () => {
                 priority
               />
               Sign In with Google
-            </button>
-            <p className="text-white">
-              Don&apos;t Have an Account ? -{" "}
-              <Link href="/signup">
-                <span className="text-blue-500 cursor-pointer"> SignUp</span>
-              </Link>
-            </p>
+            </button> */}
+              <p className="text-white">
+                Don&apos;t Have an Account ? -{" "}
+                <Link href="/signup">
+                  <span className="text-blue-500 cursor-pointer"> SignUp</span>
+                </Link>
+              </p>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+      />
+    </>
   );
 };
 
-export default forgotpass;
+export default Forgotpass;

@@ -32,6 +32,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
       const res = axios({
         method: "PATCH",
         url: "/api/v1/updateLink",
+        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
         data: {
           id,
           title: editTitle,
@@ -54,7 +55,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
     const res = axios({
       method: "DELETE",
       url: "/api/v1/deleteLink",
-      params: { id: paramsId },
+      params: { id: paramsId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
       data: {
         id,
       },

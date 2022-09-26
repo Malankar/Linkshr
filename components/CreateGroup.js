@@ -86,7 +86,7 @@ const CreateGroup = ({ user, createdGroups }) => {
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
-        theme: "dark"
+        theme: "dark",
       });
     toastMsg(msg);
   }
@@ -102,6 +102,7 @@ const CreateGroup = ({ user, createdGroups }) => {
             const res = axios({
               method: "POST",
               url: "/api/v1/addGroup",
+              params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
               data: {
                 name: grpTitle,
                 links: { title: urlTitle, link: url },
@@ -125,7 +126,10 @@ const CreateGroup = ({ user, createdGroups }) => {
           const res = axios({
             method: "PATCH",
             url: "/api/v1/createLink",
-            params: { id: option.id },
+            params: {
+              id: option.id,
+              apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+            },
             data: {
               title: urlTitle,
               link: url,

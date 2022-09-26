@@ -3,17 +3,19 @@ import Users from "../../../models/userModel";
 
 export default async function addUser(req, res) {
   if (req.method === "POST") {
-    try {
-      await connectMongo();
-      console.log("CONNECTED TO MONGO");
+    if (req.query.apiSecret === process.env.API_SECRET) {
+      try {
+        await connectMongo();
 
-      const user = await Users.create(req.body);
-      console.log("User Created");
+        const user = await Users.create(req.body);
+        console.log("User Created");
 
-      res.json({ user });
-    } catch (error) {
-      console.log(error);
-      res.json({ error });
+        res.status(200).json({ user });
+      } catch (error) {
+        res.status(409).json({ error });
+      }
+    } else {
+      res.json("Not Authorized to make API Request");
     }
   } else {
     res.json("Wrong Method");

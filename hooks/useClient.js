@@ -6,9 +6,14 @@ export default function useClient() {
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
+      return user.user;
     } else {
       setUser(null);
     }
   }, []);
-  return user?.user;
+  if (user == undefined) {
+    return null;
+  } else {
+    return user?.user;
+  }
 }

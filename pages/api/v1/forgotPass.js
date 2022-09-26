@@ -1,15 +1,15 @@
 import connectMongo from "../../../utils/connectMongo";
 import Users from "../../../models/userModel";
-export default async function addGroup(req, res) {
-  if (req.method === "GET") {
+export default async function forgotPass(req, res) {
+  if (req.method === "POST") {
     if (req.query.apiSecret === process.env.API_SECRET) {
       try {
         await connectMongo();
-        const getUser = await Users.findById(req.query.id);
+        const getUser = await Users.find({ email: req.body.email });
         if (getUser) {
-          res.status(200).json({ user: getUser });
+          res.status(200).json({ data: getUser });
         } else {
-          res.status(409).json({ msg: "Wrong ID" });
+          res.status(404).json({ msg: "Wrong Email" });
         }
       } catch (error) {
         res.status(500).json({ msg: "Server Error", error });

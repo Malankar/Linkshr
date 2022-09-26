@@ -16,7 +16,10 @@ const FGroup = ({ title, id }) => {
       const res = axios({
         method: "DELETE",
         url: "/api/v1/removeForked",
-        params: { id: user?._id },
+        params: {
+          id: user?._id,
+          apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+        },
         data: {
           id,
         },
