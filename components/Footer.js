@@ -13,28 +13,28 @@ const Footer = () => {
           <a
             href="https://www.facebook.com/avdhut.malankar/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <BsFacebook className="w-5 h-5 text-blue-500 hover:text-blue-300 cursor-pointer" />
           </a>
           <a
             href="https://www.instagram.com/pixelated_renders/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <BsInstagram className="w-5 h-5 text-blue-500 hover:text-blue-300 cursor-pointer" />
           </a>
           <a
             href="https://twitter.com/AvdhutMalankar"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <BsTwitter className="w-5 h-5 text-blue-500 hover:text-blue-300 cursor-pointer" />
           </a>
           <a
             href="https://github.com/Malankar"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <BsGithub className="w-5 h-5 text-blue-500 hover:text-blue-300 cursor-pointer" />
           </a>
