@@ -25,22 +25,19 @@ const Group = ({ title, id }) => {
       })
       .catch((err) => console.log(err));
   };
-
+  function handleRedirect() {
+    router.push(`/groups/${id}`);
+  }
   return (
     <>
       <div>
-        <div className="relative">
-          <a
-            href={`https://lnkshr-e4kc.vercel.app/groups/${id}`}
-            rel="noopener noreferrer"
-          >
-            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-              <FaLayerGroup />
-            </div>
-            <span className="block p-4 pl-10 w-full text-sm rounded-lg border capitalize bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
-              {title}
-            </span>
-          </a>
+        <div className="relative cursor-pointer" onClick={handleRedirect}>
+          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+            <FaLayerGroup />
+          </div>
+          <span className="block p-4 pl-10 w-full text-sm rounded-lg border capitalize bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
+            {title}
+          </span>
         </div>
         <div className="relative">
           <MdDeleteForever

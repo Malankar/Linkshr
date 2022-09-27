@@ -11,8 +11,8 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    createdGroups: [{ type: Schema.Types.ObjectId, ref: "groups" }],
-    forkedGroups: [{ type: Schema.Types.ObjectId, ref: "groups" }],
+    createdGroups: [{ type: Schema.Types.ObjectId, ref: "Groups" }],
+    forkedGroups: [{ type: Schema.Types.ObjectId, ref: "Groups" }],
   },
   {
     timestamps: true,
