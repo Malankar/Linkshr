@@ -32,19 +32,14 @@ const Group = ({ title, id }) => {
     <>
       <div>
         <div className="relative" onClick={handleRedirect}>
-          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <FaLayerGroup />
-          </div>
-          <span className="block p-4 pl-10 w-full text-sm rounded-lg border capitalize bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
-            {title}
-          </span>
-          {/* <button
-            type="submit"
-            className="text-white absolute right-16 bottom-2.5 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-            
-          >
-            Edit
-          </button> */}
+          <a href={`/groups/${id}`} rel="noopener noreferrer">
+            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <FaLayerGroup />
+            </div>
+            <span className="block p-4 pl-10 w-full text-sm rounded-lg border capitalize bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
+              {title}
+            </span>
+          </a>
         </div>
         <div className="relative">
           <MdDeleteForever
