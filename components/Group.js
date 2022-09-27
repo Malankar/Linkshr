@@ -25,13 +25,11 @@ const Group = ({ title, id }) => {
       })
       .catch((err) => console.log(err));
   };
-  function handleRedirect() {
-    router.push(`/groups/${id}`);
-  }
+
   return (
     <>
       <div>
-        <div className="relative" onClick={handleRedirect}>
+        <div className="relative">
           <a href={`/groups/${id}`} rel="noopener noreferrer">
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <FaLayerGroup />
