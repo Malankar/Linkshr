@@ -30,7 +30,10 @@ const Group = ({ title, id }) => {
     <>
       <div>
         <div className="relative">
-          <a href={`/groups/${id}`} rel="noopener noreferrer">
+          <a
+            href={`https://lnkshr-e4kc.vercel.app/groups/${id}`}
+            rel="noopener noreferrer"
+          >
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <FaLayerGroup />
             </div>
