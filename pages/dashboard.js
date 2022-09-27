@@ -48,7 +48,7 @@ const Dashboard = () => {
     if (userData !== null) {
       return;
     } else {
-      router.push("/login");
+      router.replace("/login");
     }
   }, [userData, router, user]);
 

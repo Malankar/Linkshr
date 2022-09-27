@@ -191,7 +191,7 @@ const CreateGroup = ({ user, createdGroups }) => {
 
   return (
     <>
-      <div className="flex pt-2 justify-center items-center text-white">
+      <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto text-white">
         <div className="flex w-2/3 justify-between items-center">
           <div className="flex space-x-3 items-center">
             <IoIosCreate className="text-gray-200 w-9 h-9" />

@@ -42,26 +42,26 @@ const Groups = ({ createdGroups, forkedGroups }) => {
   }
   return (
     <>
-      <div className="flex pt-2 justify-center items-center dark:text-white">
-        <div className="flex w-2/3 justify-between items-center">
-          <div className="flex space-x-3 items-center">
-            <AiOutlineUngroup className="text-gray-200 w-9 h-9" />
-            <div className="flex-1">
-              <h1 className="text-2xl">Groups</h1>
-              <p className="text-gray-400 hidden md:flex">
-                Find all your links in their respective groups
-              </p>
+        <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto text-white">
+          <div className="flex justify-between items-center">
+            <div className="flex space-x-3 items-center">
+              <AiOutlineUngroup className="text-gray-200 w-9 h-9" />
+              <div className="flex-1">
+                <h1 className="text-2xl">Groups</h1>
+                <p className="text-gray-400 hidden md:flex">
+                  Find all your links in their respective groups
+                </p>
+              </div>
+            </div>
+            <div className="">
+              <Filter Sorting={Sorting} />
             </div>
           </div>
-          <div className="">
-            <Filter Sorting={Sorting} />
-          </div>
-        </div>
       </div>
       {/* <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-3xl m-auto gap-4 dark:text-white">
         <h1 className="text-xl">Make a New Group... ☝️ </h1>
       </div> */}
-      <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto gap-4 dark:text-white">
+      <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto gap-4 text-white">
         <h1 className="text-lg">Created Groups: </h1>
         {groups ? (
           <>
@@ -78,7 +78,7 @@ const Groups = ({ createdGroups, forkedGroups }) => {
           <>
             <h1>No. Groups: {fGroups.length}</h1>
             {fGroups.map((group) => (
-              <FGroup title={group.name} key={group._id} id={group._id}  />
+              <FGroup title={group.name} key={group._id} id={group._id} />
             ))}
           </>
         ) : (
