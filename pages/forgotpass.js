@@ -51,7 +51,7 @@ const Forgotpass = () => {
                 .then(
                   (result) => {
                     console.log(result.text);
-                    router.push("/login");
+                    router.replace("/login");
                   },
                   (error) => {
                     console.log(error.text);
