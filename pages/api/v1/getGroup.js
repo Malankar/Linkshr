@@ -5,7 +5,7 @@ export default async function getGroupByUser(req, res) {
   if (req.method === "GET") {
     if (req.query.apiSecret === process.env.API_SECRET) {
       try {
-        // await connectMongo();
+        await connectMongo();
         const getUser = await Users.findById(req.query.id).populate([
           { path: "createdGroups" },
           { path: "forkedGroups" },

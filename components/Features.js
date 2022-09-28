@@ -11,7 +11,7 @@ const Features = () => {
       <div className="rounded-lg grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 h-full gap-4 w-3/4 p-6 mx-auto mt-5 border-gray-800 border">
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2  items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <FaKeyboard className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -29,7 +29,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2  items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <BiSearchAlt className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -43,7 +43,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2  items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <IoIosCreate className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -57,7 +57,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2 items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <FaClone className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -70,7 +70,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2 items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <BiText className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -84,7 +84,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2 items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <FaFilter className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -97,7 +97,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2 items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <BsFillShareFill className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>
@@ -111,7 +111,7 @@ const Features = () => {
         </div>
         <div className="bg-[#27292B] rounded-lg h-full">
           <div className="h-1/3 mt-5 mb-2 items-center flex justify-center">
-            <div className="w-20 h-20 md:w-28 md:h-28 border-4 border-blue-400 bg-gray-300 rounded-full flex justify-center items-center ">
+            <div className="w-20 h-20 md:w-28 md:h-28 bg-blue-400 rounded-full flex justify-center items-center ">
               <BiRefresh className="text-gray-800 h-12 w-12 md:h-16 md:w-16" />
             </div>
           </div>

@@ -160,18 +160,16 @@ const CreateGroup = ({ user, createdGroups }) => {
   }
 
   async function isValidHttpUrl(isUrl) {
-    const data = { url: isUrl };
-    const response = await fetch("/api/v1/getTitle/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
+    // const data = { url: isUrl };
+    const response = await axios
+      .get("/api/v1/getTitle", {
+        params: {
+          url: isUrl.trim(),
+        },
+      })
       .then((data) => {
-        if (data.title) {
-          setUrlTitle(data.title);
+        if (data.data.title) {
+          setUrlTitle(data.data.title);
           setIsValidUrl(true);
           return true;
         } else {
