@@ -10,14 +10,14 @@ const LandingNav = () => {
         <Link href="/">
           <div className="flex items-center cursor-pointer">
             <Image
-              src="/favicon.ico"
+              src="/favicon.svg"
               alt="Logo"
               width={38}
               height={38}
               priority
             />
             <span className="self-center ml-2 text-xl font-semibold whitespace-nowrap text-white">
-              Lnkshr
+              Linkshr
             </span>
           </div>
         </Link>

@@ -74,7 +74,7 @@ const Login = () => {
       <div className="flex items-center justify-center h-screen">
         <form>
           <h1 className="text-4xl text-center mb-10 font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-            <Link href="/">Lnkshr</Link>
+            <Link href="/">Linkshr</Link>
           </h1>
           <div>
             <div className="mb-6">

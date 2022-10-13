@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="flex justify-center md:block">
       <div className="py-6 px-4 max-w-screen-sm md:max-w-screen-xl m-auto  bg-slate-900 md:flex md:items-center md:justify-between">
         <span className="text-sm text-gray-300 sm:text-center">
-          © 2022 <Link href="/">Lnkshr</Link>. All Rights Reserved.
+          © 2022 <Link href="/">Linkshr</Link>. All Rights Reserved.
         </span>
         <div className="flex mt-4 space-x-6 sm:justify-center md:mt-0">
           <a

@@ -26,7 +26,7 @@ const Navbar = ({ user }) => {
       {/* left side - site logo  */}
       <div className="hidden md:flex w-14 mt-2 mr-8  ">
         <Image
-          src="/favicon.ico"
+          src="/favicon.svg"
           alt="logo"
           width={50}
           height={50}
@@ -46,14 +46,14 @@ const Navbar = ({ user }) => {
         <div className="flex-none">
           <div className="cursor-pointer flex items-center justify-around p-1 border-2 border-slate-700 bg-gray-800 rounded-lg">
             <div className="border-2 border-blue-600 rounded-full">
-            <Avatar
-              name={
-                name?.split(" ").length == 1
-                  ? name + " " + name[1] + name[2]
-                  : name
-              }
-              className="max-w-[35px] max-h-[35px] rounded-full "
-            />
+              <Avatar
+                name={
+                  name?.split(" ").length == 1
+                    ? name + " " + name[1] + name[2]
+                    : name
+                }
+                className="max-w-[35px] max-h-[35px] rounded-full "
+              />
             </div>
             <p className="text-gray-200 select-none text-lg font-semibold pl-2 pr-2">
               {name}
