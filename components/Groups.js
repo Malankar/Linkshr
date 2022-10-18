@@ -6,6 +6,7 @@ import Group from "./Group";
 import Filter from "./Filter";
 import { useRouter } from "next/router";
 import FGroup from "./FGroup";
+import SkeletonLoading from "./SkeletonLoading";
 
 const Groups = ({ createdGroups, forkedGroups }) => {
   const [groups, setGroups] = useState([]);
@@ -17,7 +18,6 @@ const Groups = ({ createdGroups, forkedGroups }) => {
       setGroups([...createdGroups]);
     }
   }, [createdGroups, forkedGroups]);
-
   function Sorting(group) {
     if (groups.length !== 0) {
       if (group == "alphabetical") {
@@ -42,21 +42,21 @@ const Groups = ({ createdGroups, forkedGroups }) => {
   }
   return (
     <>
-        <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto text-white">
-          <div className="flex justify-between items-center">
-            <div className="flex space-x-3 items-center">
-              <AiOutlineUngroup className="text-gray-200 w-9 h-9" />
-              <div className="flex-1">
-                <h1 className="text-2xl">Groups</h1>
-                <p className="text-gray-400 hidden md:flex">
-                  Find all your links in their respective groups
-                </p>
-              </div>
-            </div>
-            <div className="">
-              <Filter Sorting={Sorting} />
+      <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto text-white">
+        <div className="flex justify-between items-center">
+          <div className="flex space-x-3 items-center">
+            <AiOutlineUngroup className="text-gray-200 w-9 h-9" />
+            <div className="flex-1">
+              <h1 className="text-2xl">Groups</h1>
+              <p className="text-gray-400 hidden md:flex">
+                Find all your links in their respective groups
+              </p>
             </div>
           </div>
+          <div className="">
+            <Filter Sorting={Sorting} />
+          </div>
+        </div>
       </div>
       {/* <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-3xl m-auto gap-4 dark:text-white">
         <h1 className="text-xl">Make a New Group... ☝️ </h1>
@@ -66,9 +66,13 @@ const Groups = ({ createdGroups, forkedGroups }) => {
         {groups ? (
           <>
             <h1>No. Groups: {groups.length}</h1>
-            {groups.map((group) => (
-              <Group title={group.name} key={group._id} id={group._id} />
-            ))}
+            {groups.length !== 0 ? (
+              groups.map((group) => (
+                <Group title={group.name} key={group._id} id={group._id} />
+              ))
+            ) : (
+              <SkeletonLoading />
+            )}
           </>
         ) : (
           <h1>No. groups: 0</h1>
