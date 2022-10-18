@@ -19,7 +19,7 @@ const Dashboard = () => {
     const getGroupsByUser = async () => {
       if (user !== undefined) {
         const userId = user?._id;
-        const res = axios({
+        const res = await axios({
           method: "GET",
           url: `/api/v1/getGroup`,
           params: { id: userId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },

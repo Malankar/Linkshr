@@ -45,7 +45,7 @@ const Login = () => {
       confirmPassword !== ""
     ) {
       if (password === confirmPassword) {
-        const res = axios({
+        const res = await axios({
           method: "POST",
           url: "/api/v1/addUser",
           params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },

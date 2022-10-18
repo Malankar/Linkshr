@@ -99,7 +99,7 @@ const CreateGroup = ({ user, createdGroups }) => {
         //creating a new group and adding the link
         if (option.value == "Create New") {
           if (grpTitle !== "") {
-            const res = axios({
+            const res = await axios({
               method: "POST",
               url: "/api/v1/addGroup",
               params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
@@ -123,7 +123,7 @@ const CreateGroup = ({ user, createdGroups }) => {
             setError("Enter Group Title");
           }
         } else {
-          const res = axios({
+          const res = await axios({
             method: "PATCH",
             url: "/api/v1/createLink",
             params: {

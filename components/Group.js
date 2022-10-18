@@ -10,7 +10,7 @@ const Group = ({ title, id }) => {
   const router = useRouter();
   const [deleteModal, setDeleteModal] = useState(false);
   const deleteGroup = async () => {
-    const res = axios({
+    const res = await axios({
       method: "DELETE",
       url: "/api/v1/deleteGroup",
       params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },

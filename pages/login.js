@@ -34,7 +34,7 @@ const Login = () => {
     e.preventDefault();
 
     if (email !== "" && password !== "") {
-      const res = axios({
+      const res = await axios({
         method: "POST",
         url: "/api/v1/loginUser",
         params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },

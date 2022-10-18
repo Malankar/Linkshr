@@ -26,10 +26,10 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
     setViewdetails(!viewdetails);
     setEdit(false);
   }
-  function handleEditClick(e) {
+  async function handleEditClick(e) {
     e.preventDefault();
     if (editLink.length !== 0 && editTitle.length !== 0) {
-      const res = axios({
+      const res = await axios({
         method: "PATCH",
         url: "/api/v1/updateLink",
         params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
@@ -50,9 +50,9 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
         });
     }
   }
-  function handleDeleteClick(e) {
+  async function handleDeleteClick(e) {
     e.stopPropagation();
-    const res = axios({
+    const res = await axios({
       method: "DELETE",
       url: "/api/v1/deleteLink",
       params: { id: paramsId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },

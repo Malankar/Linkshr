@@ -13,7 +13,7 @@ const FGroup = ({ title, id }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const deleteGroup = async () => {
     if (user) {
-      const res = axios({
+      const res = await axios({
         method: "DELETE",
         url: "/api/v1/removeForked",
         params: {

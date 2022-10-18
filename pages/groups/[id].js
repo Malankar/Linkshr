@@ -42,7 +42,7 @@ const Id = ({ group, user }) => {
     const getGroupsByUser = async () => {
       if (loggedInUser !== undefined) {
         const userId = loggedInUser?._id;
-        const res = axios({
+        const res = await axios({
           method: "GET",
           url: `/api/v1/getGroup`,
           params: { id: userId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
@@ -89,12 +89,12 @@ const Id = ({ group, user }) => {
     }
   }, [error]);
 
-  const cloneGroup = () => {
+  const cloneGroup = async () => {
     if (forked == true) {
       console.log(forked);
       return;
     } else {
-      const res = axios({
+      const res = await axios({
         method: "POST",
         url: "/api/v1/cloneGroup",
         params: {
@@ -120,14 +120,14 @@ const Id = ({ group, user }) => {
         });
     }
   };
-  function createLink(e) {
+  async function createLink(e) {
     e.preventDefault();
     if (url !== "" && urlTitle !== "") {
       if (!isValidUrl) {
         setError("Invalid Url");
         return;
       }
-      const res = axios({
+      const res = await axios({
         method: "PATCH",
         url: "/api/v1/createLink",
         params: {
@@ -176,8 +176,8 @@ const Id = ({ group, user }) => {
       window.open(element.link, "_blank");
     });
   }
-  function changeTitle(e) {
-    const res = axios({
+  async function changeTitle(e) {
+    const res = await axios({
       method: "PATCH",
       url: "/api/v1/editTitle",
       params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
