@@ -13,7 +13,6 @@ export default async function updateLink(req, res) {
         },
         function (err, model) {
           if (err) {
-            console.log(err);
             return res.status(400).json(err);
           } else {
             return res.status(200).json(model);

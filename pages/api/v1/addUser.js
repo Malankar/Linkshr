@@ -8,7 +8,6 @@ export default async function addUser(req, res) {
         await connectMongo();
 
         const user = await Users.create(req.body);
-        console.log("User Created");
 
         res.status(200).json({ user });
       } catch (error) {

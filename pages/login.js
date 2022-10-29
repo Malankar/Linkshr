@@ -52,7 +52,6 @@ const Login = () => {
         }
       } catch (err) {
         setError("User Not found");
-        console.log(err);
       }
     } else {
       setError("Enter all fields");

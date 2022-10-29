@@ -19,7 +19,6 @@ export default async function addGroup(req, res) {
           res.status(409).json({ msg: "Aleardy Exists" });
         }
       } catch (error) {
-        console.log(error);
         res.status(500).json({ error });
       }
     } else {

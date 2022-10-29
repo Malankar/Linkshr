@@ -37,30 +37,21 @@ const Forgotpass = () => {
           });
           if (res.status == 200) {
             const user = res.data.data[0];
-            emailjs
-              .send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-                {
-                  to_name: user.name,
-                  msg_email: user.email,
-                  msg_password: user.password,
-                },
-                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-              )
-              .then(
-                (result) => {
-                  console.log(result.text);
-                  router.replace("/login");
-                },
-                (error) => {
-                  console.log(error.text);
-                }
-              );
+            await emailjs.send(
+              process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+              process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+              {
+                to_name: user.name,
+                msg_email: user.email,
+                msg_password: user.password,
+              },
+              process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+            );
+
+            router.replace("/login");
           }
         } catch (err) {
           setError("Email is not registered");
-          console.log(err);
         }
       } else {
         setError("Wrong Email");

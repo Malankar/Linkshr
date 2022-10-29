@@ -16,7 +16,6 @@ export default async function editTitle(req, res) {
           res.status(409).json({ msg: "Group name already in use" });
         }
       } catch (error) {
-        console.log(error);
         res.status(500).json({ error });
       }
     } else {

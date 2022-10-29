@@ -6,7 +6,6 @@ export default async function addLink(req, res) {
       try {
         await connectMongo();
         const group = await Groups.findById(req.query.id);
-        if (group == null) console.log("Not found");
         const data = group.links.filter(
           (data) => data.link == req.body.link || data.title == req.body.title
         );
@@ -18,7 +17,6 @@ export default async function addLink(req, res) {
           res.status(409).json("This Link exists in that group");
         }
       } catch (error) {
-        console.log(error);
         res.status(500).json({ error });
       }
     } else {

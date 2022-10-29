@@ -75,7 +75,6 @@ const CreateGroup = ({ user, createdGroups }) => {
     } else {
       handleNewGroupOption(false);
     }
-    // console.log(option);
   }
   function Error(msg) {
     const toastMsg = (msg) =>
@@ -135,7 +134,9 @@ const CreateGroup = ({ user, createdGroups }) => {
                 link: url,
               },
             });
-            console.log(res);
+            if (res.status == 200) {
+              router.reload();
+            }
           } catch (err) {
             setError("Link exists in that group");
           }

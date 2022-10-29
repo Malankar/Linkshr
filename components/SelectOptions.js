@@ -59,7 +59,6 @@ const SelectOptions = ({ handleNewGroupOption }) => {
     } else {
       handleNewGroupOption(false);
     }
-    console.log(option);
   }
   return (
     <div>

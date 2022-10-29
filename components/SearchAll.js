@@ -12,7 +12,6 @@ const SearchAll = () => {
     if (createdGroup) {
       setGroups(createdGroup);
     }
-    console.log(groups);
   }, [createdGroup, groups]);
   const router = useRouter();
   const [selected, setSelected] = useState(groups[0]);
@@ -30,7 +29,6 @@ const SearchAll = () => {
       router.push(`/groups/${selected}`);
     }
   }, [selected, router]);
-  console.log(query);
 
   return (
     <>

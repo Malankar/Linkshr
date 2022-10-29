@@ -7,7 +7,6 @@ export default async function deleteLink(req, res) {
         { $pull: { links: { _id: req.body.id } } },
         function (err, model) {
           if (err) {
-            console.log(err);
             return res.send(err);
           }
           return res.json(model);

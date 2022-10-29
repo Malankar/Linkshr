@@ -95,7 +95,7 @@ const Id = ({ group, user }) => {
 
   const cloneGroup = async () => {
     if (forked == true) {
-      console.log(forked);
+      setForked(true);
       return;
     } else {
       try {
@@ -112,12 +112,10 @@ const Id = ({ group, user }) => {
             createdBy: loggedInUser._id,
           },
         });
-        console.log(res);
         if (res.status == 200) {
           setForked(true);
         }
       } catch (err) {
-        console.log("Error: " + err);
         setError("Group Name Already Exists");
       }
     }
@@ -190,7 +188,6 @@ const Id = ({ group, user }) => {
           createdBy: group.createdBy,
         },
       });
-      console.log(res);
       router.push(router.asPath);
     } catch (err) {
       console.log(err);
@@ -365,8 +362,7 @@ export async function getServerSideProps(context) {
         notFound: true,
       };
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
     return {
       notFound: true,
     };

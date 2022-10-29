@@ -7,7 +7,6 @@ export default async function loginUser(req, res) {
       const getUser = await Users.find({ email: req.body.email });
       if (getUser) {
         if (req.body.password == getUser[0].password) {
-          console.log("user signed in");
           res.status(200).json({ user: getUser[0] });
         } else {
           res.status(203).json({ msg: "Wrong Password" });

@@ -40,10 +40,8 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
             link: editLink,
           },
         });
-        console.log(res);
         router.replace(router.asPath);
       } catch (err) {
-        console.log(err);
         setError(err);
       }
     }
@@ -59,10 +57,8 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
           id,
         },
       });
-      console.log(res);
       router.replace(router.asPath);
     } catch (err) {
-      console.log(err);
       setError(err);
     }
   }

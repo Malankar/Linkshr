@@ -9,7 +9,6 @@ const Login = () => {
   const router = useRouter();
   useEffect(() => {
     const user = localStorage.getItem("user");
-    console.log(JSON.parse(user));
     if (user) {
       router.replace("/dashboard");
     }

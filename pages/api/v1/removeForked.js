@@ -16,7 +16,6 @@ export default async function deleteGroup(req, res) {
         user.save();
         res.json({ group, user });
       } catch (error) {
-        console.log(error);
         res.json({ error });
       }
     } else {

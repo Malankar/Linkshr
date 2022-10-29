@@ -13,7 +13,7 @@ const Navbar = ({ user }) => {
       localStorage.clear();
       router.push("/login");
     } else {
-      console.log("No user");
+      router.replace("/");
     }
   }
   return (

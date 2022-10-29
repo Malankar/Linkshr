@@ -15,7 +15,6 @@ export default async function getGroupByUser(req, res) {
           res.status(409).json({ msg: "Wrong ID" });
         }
       } catch (error) {
-        console.log("Create One" + error);
         res.json({ msg: "ID Not Found", error });
       }
     } else {

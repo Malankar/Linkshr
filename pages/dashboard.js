@@ -14,7 +14,6 @@ const Dashboard = () => {
   const [forkedGroups, setForkedGroups] = useState(null);
   const router = useRouter();
   const [userData, setUserData] = useState({});
-  // console.log(userData);
   useEffect(() => {
     const getGroupsByUser = async () => {
       if (user !== undefined) {

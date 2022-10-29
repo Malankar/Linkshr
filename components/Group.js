@@ -19,7 +19,6 @@ const Group = ({ title, id }) => {
           id,
         },
       });
-      console.log(res);
       router.reload();
     } catch (err) {
       console.log(err);
