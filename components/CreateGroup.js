@@ -137,7 +137,6 @@ const CreateGroup = ({ user, createdGroups }) => {
             });
             console.log(res);
           } catch (err) {
-            console.log(err);
             setError("Link exists in that group");
           }
           closeModal();
