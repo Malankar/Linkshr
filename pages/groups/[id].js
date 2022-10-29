@@ -41,16 +41,20 @@ const Id = ({ group, user }) => {
   useEffect(() => {
     const getGroupsByUser = async () => {
       if (loggedInUser !== undefined) {
-        const userId = loggedInUser?._id;
-        const res = await axios({
-          method: "GET",
-          url: `/api/v1/getGroup`,
-          params: { id: userId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        })
-          .then((data) => {
-            setForkedGroups(data.data.forkedByUser);
-          })
-          .catch((err) => console.log(err));
+        try {
+          const userId = loggedInUser?._id;
+          const res = await axios({
+            method: "GET",
+            url: `/api/v1/getGroup`,
+            params: {
+              id: userId,
+              apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+            },
+          });
+          setForkedGroups(data.data.forkedByUser);
+        } catch (err) {
+          console.log(err);
+        }
       } else {
         console.log("User not initlized");
       }
@@ -94,30 +98,28 @@ const Id = ({ group, user }) => {
       console.log(forked);
       return;
     } else {
-      const res = await axios({
-        method: "POST",
-        url: "/api/v1/cloneGroup",
-        params: {
-          id: group._id,
-          apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-        },
-        data: {
-          name: groupTitle,
-          links: group.links,
-          createdBy: loggedInUser._id,
-        },
-      });
-      let data = res
-        .then((data) => {
-          console.log(data);
-          if (data.status == 200) {
-            setForked(true);
-          }
-        })
-        .catch((err) => {
-          console.log("Error: " + err);
-          setError("Group Name Already Exists");
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/api/v1/cloneGroup",
+          params: {
+            id: group._id,
+            apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+          },
+          data: {
+            name: groupTitle,
+            links: group.links,
+            createdBy: loggedInUser._id,
+          },
         });
+        console.log(res);
+        if (res.status == 200) {
+          setForked(true);
+        }
+      } catch (err) {
+        console.log("Error: " + err);
+        setError("Group Name Already Exists");
+      }
     }
   };
   async function createLink(e) {
@@ -127,49 +129,49 @@ const Id = ({ group, user }) => {
         setError("Invalid Url");
         return;
       }
-      const res = await axios({
-        method: "PATCH",
-        url: "/api/v1/createLink",
-        params: {
-          id: group._id,
-          apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-        },
-        data: {
-          title: urlTitle,
-          link: url,
-        },
-      });
-      let data = res
-        .then((data) => {
-          setUrl("");
-          setUrlTitle("");
-          router.push(router.asPath);
-        })
-        .catch((err) => {
-          setError("Link Exists");
+      try {
+        const res = await axios({
+          method: "PATCH",
+          url: "/api/v1/createLink",
+          params: {
+            id: group._id,
+            apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+          },
+          data: {
+            title: urlTitle,
+            link: url,
+          },
         });
+        setUrl("");
+        setUrlTitle("");
+        router.push(router.asPath);
+      } catch (err) {
+        setError("Link Exists");
+      }
     } else {
       setError("Enter URL & Title");
     }
   }
   // async function isValidHttpUrl(isUrl) {
+
   const isValidHttpUrl = useCallback(async (isUrl) => {
-    const response = await axios
-      .get("/api/v1/getTitle", {
+    try {
+      const response = await axios.get("/api/v1/getTitle", {
         params: {
           url: isUrl.trim(),
         },
-      })
-      .then((data) => {
-        if (data.data.title) {
-          setUrlTitle(data.data.title);
-          setIsValidUrl(true);
-          return true;
-        } else {
-          setIsValidUrl(false);
-        }
-      })
-      .catch((err) => console.log(err));
+      });
+      if (response.data.title) {
+        setUrlTitle(response.data.title);
+        setIsValidUrl(true);
+        return true;
+      } else {
+        setError("Invalid URL");
+        setIsValidUrl(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
   function openAllLinks() {
     group.links.forEach((element) => {
@@ -177,22 +179,22 @@ const Id = ({ group, user }) => {
     });
   }
   async function changeTitle(e) {
-    const res = await axios({
-      method: "PATCH",
-      url: "/api/v1/editTitle",
-      params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-      data: {
-        id: group._id,
-        name: groupTitle,
-        createdBy: group.createdBy,
-      },
-    });
-    let data = res
-      .then((data) => {
-        console.log(data);
-        router.push(router.asPath);
-      })
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios({
+        method: "PATCH",
+        url: "/api/v1/editTitle",
+        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+        data: {
+          id: group._id,
+          name: groupTitle,
+          createdBy: group.createdBy,
+        },
+      });
+      console.log(res);
+      router.push(router.asPath);
+    } catch (err) {
+      console.log(err);
+    }
   }
   useEffect(() => {
     if (url == "") {

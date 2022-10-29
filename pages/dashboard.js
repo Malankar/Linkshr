@@ -18,23 +18,27 @@ const Dashboard = () => {
   useEffect(() => {
     const getGroupsByUser = async () => {
       if (user !== undefined) {
-        const userId = user?._id;
-        const res = await axios({
-          method: "GET",
-          url: `/api/v1/getGroup`,
-          params: { id: userId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        })
-          .then((data) => {
-            UIStore.update((s) => {
-              s.createdGroup = data.data.groupByUser;
-            });
-            UIStore.update((s) => {
-              s.forkedGroup = data.data.forkedByUser;
-            });
-            setCreatedGroups(data.data.groupByUser);
-            setForkedGroups(data.data.forkedByUser);
-          })
-          .catch((err) => console.log(err));
+        try {
+          const userId = user?._id;
+          const res = await axios({
+            method: "GET",
+            url: `/api/v1/getGroup`,
+            params: {
+              id: userId,
+              apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+            },
+          });
+          UIStore.update((s) => {
+            s.createdGroup = res.data.groupByUser;
+          });
+          UIStore.update((s) => {
+            s.forkedGroup = res.data.forkedByUser;
+          });
+          setCreatedGroups(res.data.groupByUser);
+          setForkedGroups(res.data.forkedByUser);
+        } catch (err) {
+          console.log(err);
+        }
       } else {
         console.log("User not initlized");
       }

@@ -45,25 +45,24 @@ const Login = () => {
       confirmPassword !== ""
     ) {
       if (password === confirmPassword) {
-        const res = await axios({
-          method: "POST",
-          url: "/api/v1/addUser",
-          params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-          data: {
-            name,
-            email,
-            password,
-          },
-        })
-          .then((data) => {
-            if (data.status == 200) {
-              localStorage.setItem("user", JSON.stringify(data.data));
-              router.replace("/dashboard");
-            }
-          })
-          .catch((err) => {
-            setError("This Email has been taken!!");
+        try {
+          const res = await axios({
+            method: "POST",
+            url: "/api/v1/addUser",
+            params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+            data: {
+              name,
+              email,
+              password,
+            },
           });
+          if (res.status == 200) {
+            localStorage.setItem("user", JSON.stringify(res.data));
+            router.replace("/dashboard");
+          }
+        } catch (err) {
+          setError("This Email has been taken!!");
+        }
       } else {
         setError("Confim Password Does Not Match");
       }

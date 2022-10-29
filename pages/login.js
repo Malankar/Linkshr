@@ -34,27 +34,26 @@ const Login = () => {
     e.preventDefault();
 
     if (email !== "" && password !== "") {
-      const res = await axios({
-        method: "POST",
-        url: "/api/v1/loginUser",
-        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        data: {
-          email: email,
-          password: password,
-        },
-      })
-        .then((data) => {
-          if (data.status == 200) {
-            localStorage.setItem("user", JSON.stringify(data.data));
-            router.replace("/dashboard");
-          } else {
-            setError("Wrong Password");
-          }
-        })
-        .catch((err) => {
-          setError("User Not found");
-          console.log(err);
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/api/v1/loginUser",
+          params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+          data: {
+            email: email,
+            password: password,
+          },
         });
+        if (res.status == 200) {
+          localStorage.setItem("user", JSON.stringify(res.data));
+          router.replace("/dashboard");
+        } else {
+          setError("Wrong Password");
+        }
+      } catch (err) {
+        setError("User Not found");
+        console.log(err);
+      }
     } else {
       setError("Enter all fields");
     }

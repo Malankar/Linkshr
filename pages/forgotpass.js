@@ -26,43 +26,42 @@ const Forgotpass = () => {
     e.preventDefault();
     if (email !== "") {
       if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        const res = await axios({
-          method: "POST",
-          url: "/api/v1/forgotPass",
-          params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-          data: {
-            email,
-          },
-        })
-          .then((data) => {
-            if (data.status == 200) {
-              const user = data.data.data[0];
-              emailjs
-                .send(
-                  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-                  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-                  {
-                    to_name: user.name,
-                    msg_email: user.email,
-                    msg_password: user.password,
-                  },
-                  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-                )
-                .then(
-                  (result) => {
-                    console.log(result.text);
-                    router.replace("/login");
-                  },
-                  (error) => {
-                    console.log(error.text);
-                  }
-                );
-            }
-          })
-          .catch((err) => {
-            setError("Email is not registered");
-            console.log(err);
+        try {
+          const res = await axios({
+            method: "POST",
+            url: "/api/v1/forgotPass",
+            params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+            data: {
+              email,
+            },
           });
+          if (res.status == 200) {
+            const user = res.data.data[0];
+            emailjs
+              .send(
+                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+                {
+                  to_name: user.name,
+                  msg_email: user.email,
+                  msg_password: user.password,
+                },
+                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+              )
+              .then(
+                (result) => {
+                  console.log(result.text);
+                  router.replace("/login");
+                },
+                (error) => {
+                  console.log(error.text);
+                }
+              );
+          }
+        } catch (err) {
+          setError("Email is not registered");
+          console.log(err);
+        }
       } else {
         setError("Wrong Email");
       }

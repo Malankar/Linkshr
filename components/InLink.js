@@ -12,7 +12,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
   const [viewdetails, setViewdetails] = useState(false);
   const [editLink, setEditLink] = useState(link);
   const [editTitle, setEditTitle] = useState(title);
-  const [groupName, setGroupName] = useState(name);
+  // const [groupName, setGroupName] = useState(name);
   const [deleteModal, setDeleteModal] = useState(false);
 
   const [error, setError] = useState(null);
@@ -29,46 +29,42 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
   async function handleEditClick(e) {
     e.preventDefault();
     if (editLink.length !== 0 && editTitle.length !== 0) {
-      const res = await axios({
-        method: "PATCH",
-        url: "/api/v1/updateLink",
-        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        data: {
-          id,
-          title: editTitle,
-          link: editLink,
-        },
-      });
-      let data = res
-        .then((data) => {
-          console.log(data);
-          router.replace(router.asPath);
-        })
-        .catch((err) => {
-          console.log(err);
-          setError(err);
+      try {
+        const res = await axios({
+          method: "PATCH",
+          url: "/api/v1/updateLink",
+          params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+          data: {
+            id,
+            title: editTitle,
+            link: editLink,
+          },
         });
+        console.log(res);
+        router.replace(router.asPath);
+      } catch (err) {
+        console.log(err);
+        setError(err);
+      }
     }
   }
   async function handleDeleteClick(e) {
     e.stopPropagation();
-    const res = await axios({
-      method: "DELETE",
-      url: "/api/v1/deleteLink",
-      params: { id: paramsId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-      data: {
-        id,
-      },
-    });
-    let data = res
-      .then((data) => {
-        console.log(data);
-        router.replace(router.asPath);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err);
+    try {
+      const res = await axios({
+        method: "DELETE",
+        url: "/api/v1/deleteLink",
+        params: { id: paramsId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+        data: {
+          id,
+        },
       });
+      console.log(res);
+      router.replace(router.asPath);
+    } catch (err) {
+      console.log(err);
+      setError(err);
+    }
   }
   return (
     <>

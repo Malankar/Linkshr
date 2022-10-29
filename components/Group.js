@@ -10,20 +10,20 @@ const Group = ({ title, id }) => {
   const router = useRouter();
   const [deleteModal, setDeleteModal] = useState(false);
   const deleteGroup = async () => {
-    const res = await axios({
-      method: "DELETE",
-      url: "/api/v1/deleteGroup",
-      params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-      data: {
-        id,
-      },
-    });
-    let data = res
-      .then((data) => {
-        console.log(data);
-        router.reload();
-      })
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios({
+        method: "DELETE",
+        url: "/api/v1/deleteGroup",
+        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+        data: {
+          id,
+        },
+      });
+      console.log(res);
+      router.reload();
+    } catch (err) {
+      console.log(err);
+    }
   };
   function handleRedirect() {
     router.push(`/groups/${id}`);

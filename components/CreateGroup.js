@@ -99,48 +99,47 @@ const CreateGroup = ({ user, createdGroups }) => {
         //creating a new group and adding the link
         if (option.value == "Create New") {
           if (grpTitle !== "") {
-            const res = await axios({
-              method: "POST",
-              url: "/api/v1/addGroup",
-              params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-              data: {
-                name: grpTitle,
-                links: { title: urlTitle, link: url },
-                createdBy: user?._id,
-              },
-            });
-            let data = res
-              .then((data) => {
-                if (data.status == 200) {
-                  router.reload();
-                }
-              })
-              .catch((err) => {
-                setError("Group Name Already Exists");
+            try {
+              const res = await axios({
+                method: "POST",
+                url: "/api/v1/addGroup",
+                params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
+                data: {
+                  name: grpTitle,
+                  links: { title: urlTitle, link: url },
+                  createdBy: user?._id,
+                },
               });
+              if (res.status == 200) {
+                router.reload();
+              }
+            } catch (err) {
+              setError("Group Name Already Exists");
+            }
+
             closeModal();
           } else {
             setError("Enter Group Title");
           }
         } else {
-          const res = await axios({
-            method: "PATCH",
-            url: "/api/v1/createLink",
-            params: {
-              id: option.id,
-              apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-            },
-            data: {
-              title: urlTitle,
-              link: url,
-            },
-          });
-          let data = res
-            .then((data) => console.log(data))
-            .catch((err) => {
-              console.log(err);
-              setError("Link exists in that group");
+          try {
+            const res = await axios({
+              method: "PATCH",
+              url: "/api/v1/createLink",
+              params: {
+                id: option.id,
+                apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+              },
+              data: {
+                title: urlTitle,
+                link: url,
+              },
             });
+            console.log(res);
+          } catch (err) {
+            console.log(err);
+            setError("Link exists in that group");
+          }
           closeModal();
         }
       } else {
@@ -160,24 +159,23 @@ const CreateGroup = ({ user, createdGroups }) => {
   }
 
   async function isValidHttpUrl(isUrl) {
-    // const data = { url: isUrl };
-    const response = await axios
-      .get("/api/v1/getTitle", {
+    try {
+      const response = await axios.get("/api/v1/getTitle", {
         params: {
           url: isUrl.trim(),
         },
-      })
-      .then((data) => {
-        if (data.data.title) {
-          setUrlTitle(data.data.title);
-          setIsValidUrl(true);
-          return true;
-        } else {
-          setError("Invalid URL");
-          setIsValidUrl(false);
-        }
-      })
-      .catch((err) => console.log(err));
+      });
+      if (response.data.title) {
+        setUrlTitle(response.data.title);
+        setIsValidUrl(true);
+        return true;
+      } else {
+        setError("Invalid URL");
+        setIsValidUrl(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {

@@ -13,23 +13,23 @@ const FGroup = ({ title, id }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const deleteGroup = async () => {
     if (user) {
-      const res = await axios({
-        method: "DELETE",
-        url: "/api/v1/removeForked",
-        params: {
-          id: user?._id,
-          apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-        },
-        data: {
-          id,
-        },
-      });
-      let data = res
-        .then((data) => {
-          console.log(data);
-          router.reload();
-        })
-        .catch((err) => console.log(err));
+      try {
+        const res = await axios({
+          method: "DELETE",
+          url: "/api/v1/removeForked",
+          params: {
+            id: user?._id,
+            apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
+          },
+          data: {
+            id,
+          },
+        });
+        console.log(res);
+        router.reload();
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       console.log("User Not loaded");
     }
