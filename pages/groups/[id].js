@@ -3,9 +3,6 @@ import { FaClone, FaLayerGroup } from "react-icons/fa";
 import InLink from "../../components/InLink";
 import LandingNav from "../../components/LandingNav";
 import useClient from "../../hooks/useClient";
-import Groups from "../../models/groupModel";
-import Users from "../../models/userModel";
-import connectMongo from "../../utils/connectMongo";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Head from "next/head";
@@ -24,7 +21,6 @@ const Id = ({ group, user }) => {
   const [forkedGroups, setForkedGroups] = useState(null);
   const [isValidUrl, setIsValidUrl] = useState(false);
   const router = useRouter();
-
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     if (loggedInUser?._id === user._id) {
@@ -43,15 +39,10 @@ const Id = ({ group, user }) => {
       if (loggedInUser !== undefined) {
         try {
           const userId = loggedInUser?._id;
-          const res = await axios({
-            method: "GET",
-            url: `/api/v1/getGroup`,
-            params: {
-              id: userId,
-              apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-            },
-          });
-          setForkedGroups(data.data.forkedByUser);
+          const res = await axios.get(
+            `https://linkshrapi-production.up.railway.app/group/${userId}`
+          );
+          setForkedGroups(res.data.forkedByUser);
         } catch (err) {
           console.log(err);
         }
@@ -99,19 +90,14 @@ const Id = ({ group, user }) => {
       return;
     } else {
       try {
-        const res = await axios({
-          method: "POST",
-          url: "/api/v1/cloneGroup",
-          params: {
-            id: group._id,
-            apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-          },
-          data: {
+        const res = await axios.post(
+          `https://linkshrapi-production.up.railway.app/group/clone?id=${group._id}`,
+          {
             name: groupTitle,
             links: group.links,
             createdBy: loggedInUser._id,
-          },
-        });
+          }
+        );
         if (res.status == 200) {
           setForked(true);
         }
@@ -128,18 +114,13 @@ const Id = ({ group, user }) => {
         return;
       }
       try {
-        const res = await axios({
-          method: "PATCH",
-          url: "/api/v1/createLink",
-          params: {
-            id: group._id,
-            apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-          },
-          data: {
+        const res = await axios.post(
+          `https://linkshrapi-production.up.railway.app/link/${group._id}`,
+          {
             title: urlTitle,
             link: url,
-          },
-        });
+          }
+        );
         setUrl("");
         setUrlTitle("");
         router.push(router.asPath);
@@ -154,11 +135,9 @@ const Id = ({ group, user }) => {
 
   const isValidHttpUrl = useCallback(async (isUrl) => {
     try {
-      const response = await axios.get("/api/v1/getTitle", {
-        params: {
-          url: isUrl.trim(),
-        },
-      });
+      const response = await axios.get(
+        `https://linkshrapi-production.up.railway.app/link/title?url=${isUrl.trim()}`
+      );
       if (response.data.title) {
         setUrlTitle(response.data.title);
         setIsValidUrl(true);
@@ -178,16 +157,14 @@ const Id = ({ group, user }) => {
   }
   async function changeTitle(e) {
     try {
-      const res = await axios({
-        method: "PATCH",
-        url: "/api/v1/editTitle",
-        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        data: {
+      await axios.post(
+        "https://linkshrapi-production.up.railway.app/group/title",
+        {
           id: group._id,
           name: groupTitle,
           createdBy: group.createdBy,
-        },
-      });
+        }
+      );
       router.push(router.asPath);
     } catch (err) {
       console.log(err);
@@ -344,17 +321,20 @@ const Id = ({ group, user }) => {
   );
 };
 export async function getServerSideProps(context) {
-  const { id } = context.query;
-
   try {
-    await connectMongo();
-    const getGroup = await Groups.findById(id);
+    const { id } = context.query;
+    const getGroup = await axios.get(
+      `https://linkshrapi-production.up.railway.app/group/?id=${id}`
+    );
     if (getGroup) {
-      const getUser = await Users.findById(getGroup?.createdBy);
+      const createdBy = getGroup?.data?.data?.createdBy;
+      const getUser = await axios.get(
+        `https://linkshrapi-production.up.railway.app/user?id=${createdBy}`
+      );
       return {
         props: {
-          group: JSON.parse(JSON.stringify(getGroup)),
-          user: JSON.parse(JSON.stringify(getUser)),
+          group: JSON.parse(JSON.stringify(getGroup?.data?.data)),
+          user: JSON.parse(JSON.stringify(getUser?.data?.user)),
         },
       };
     } else {

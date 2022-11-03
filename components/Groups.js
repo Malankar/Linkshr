@@ -63,7 +63,7 @@ const Groups = ({ createdGroups, forkedGroups }) => {
       </div> */}
       <div className="pt-5 grid grid-cols-1 max-w-xs md:max-w-xl lg:max-w-3xl m-auto gap-4 text-white">
         <h1 className="text-lg">Created Groups: </h1>
-        {groups ? (
+        {groups.length !== 0 ? (
           <>
             <h1>No. Groups: {groups.length}</h1>
             {groups.length !== 0 ? (

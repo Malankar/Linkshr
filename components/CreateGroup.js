@@ -99,16 +99,14 @@ const CreateGroup = ({ user, createdGroups }) => {
         if (option.value == "Create New") {
           if (grpTitle !== "") {
             try {
-              const res = await axios({
-                method: "POST",
-                url: "/api/v1/addGroup",
-                params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-                data: {
+              const res = await axios.post(
+                "https://linkshrapi-production.up.railway.app/group",
+                {
                   name: grpTitle,
                   links: { title: urlTitle, link: url },
                   createdBy: user?._id,
-                },
-              });
+                }
+              );
               if (res.status == 200) {
                 router.reload();
               }
@@ -122,18 +120,13 @@ const CreateGroup = ({ user, createdGroups }) => {
           }
         } else {
           try {
-            const res = await axios({
-              method: "PATCH",
-              url: "/api/v1/createLink",
-              params: {
-                id: option.id,
-                apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-              },
-              data: {
+            const res = await axios.post(
+              `https://linkshrapi-production.up.railway.app/link/${option.id}`,
+              {
                 title: urlTitle,
                 link: url,
-              },
-            });
+              }
+            );
             if (res.status == 200) {
               router.reload();
             }
@@ -160,11 +153,9 @@ const CreateGroup = ({ user, createdGroups }) => {
 
   async function isValidHttpUrl(isUrl) {
     try {
-      const response = await axios.get("/api/v1/getTitle", {
-        params: {
-          url: isUrl.trim(),
-        },
-      });
+      const response = await axios.get(
+        `https://linkshrapi-production.up.railway.app/link/title?url=${isUrl.trim()}`
+      );
       if (response.data.title) {
         setUrlTitle(response.data.title);
         setIsValidUrl(true);

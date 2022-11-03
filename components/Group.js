@@ -11,14 +11,9 @@ const Group = ({ title, id }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const deleteGroup = async () => {
     try {
-      const res = await axios({
-        method: "DELETE",
-        url: "/api/v1/deleteGroup",
-        params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        data: {
-          id,
-        },
-      });
+      await axios.delete(
+        `https://linkshrapi-production.up.railway.app/group/${id}`
+      );
       router.reload();
     } catch (err) {
       console.log(err);

@@ -14,17 +14,9 @@ const FGroup = ({ title, id }) => {
   const deleteGroup = async () => {
     if (user) {
       try {
-        const res = await axios({
-          method: "DELETE",
-          url: "/api/v1/removeForked",
-          params: {
-            id: user?._id,
-            apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-          },
-          data: {
-            id,
-          },
-        });
+        await axios.delete(
+          `https://linkshrapi-production.up.railway.app/group/clone/${user?._id}?groupId=${id}`
+        );
         router.reload();
       } catch (err) {
         console.log(err);

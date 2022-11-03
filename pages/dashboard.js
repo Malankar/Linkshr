@@ -14,19 +14,15 @@ const Dashboard = () => {
   const [forkedGroups, setForkedGroups] = useState(null);
   const router = useRouter();
   const [userData, setUserData] = useState({});
+
   useEffect(() => {
     const getGroupsByUser = async () => {
       if (user !== undefined) {
         try {
           const userId = user?._id;
-          const res = await axios({
-            method: "GET",
-            url: `/api/v1/getGroup`,
-            params: {
-              id: userId,
-              apiSecret: process.env.NEXT_PUBLIC_API_SECRET,
-            },
-          });
+          const res = await axios.get(
+            `https://linkshrapi-production.up.railway.app/group/${userId}`
+          );
           UIStore.update((s) => {
             s.createdGroup = res.data.groupByUser;
           });

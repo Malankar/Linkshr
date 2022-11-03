@@ -45,16 +45,14 @@ const Login = () => {
     ) {
       if (password === confirmPassword) {
         try {
-          const res = await axios({
-            method: "POST",
-            url: "/api/v1/addUser",
-            params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-            data: {
+          const res = await axios.post(
+            "https://linkshrapi-production.up.railway.app/auth",
+            {
               name,
               email,
               password,
-            },
-          });
+            }
+          );
           if (res.status == 200) {
             localStorage.setItem("user", JSON.stringify(res.data));
             router.replace("/dashboard");

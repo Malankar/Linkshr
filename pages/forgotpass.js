@@ -27,14 +27,14 @@ const Forgotpass = () => {
     if (email !== "") {
       if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
         try {
-          const res = await axios({
-            method: "POST",
-            url: "/api/v1/forgotPass",
-            params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-            data: {
-              email,
-            },
-          });
+          const res = await axios.get(
+            "https://linkshrapi-production.up.railway.app/user/forgotpass",
+            {
+              params: {
+                email,
+              },
+            }
+          );
           if (res.status == 200) {
             const user = res.data.data[0];
             await emailjs.send(

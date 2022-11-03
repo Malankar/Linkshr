@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { Fragment, useState } from "react";
 import { RiShareBoxLine } from "react-icons/ri";
 import { MdDeleteForever } from "react-icons/md";
@@ -12,9 +11,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
   const [viewdetails, setViewdetails] = useState(false);
   const [editLink, setEditLink] = useState(link);
   const [editTitle, setEditTitle] = useState(title);
-  // const [groupName, setGroupName] = useState(name);
   const [deleteModal, setDeleteModal] = useState(false);
-
   const [error, setError] = useState(null);
   const router = useRouter();
   function EditClick(e) {
@@ -30,15 +27,10 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
     e.preventDefault();
     if (editLink.length !== 0 && editTitle.length !== 0) {
       try {
-        const res = await axios({
-          method: "PATCH",
-          url: "/api/v1/updateLink",
-          params: { apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-          data: {
-            id,
-            title: editTitle,
-            link: editLink,
-          },
+        await axios.patch("https://linkshrapi-production.up.railway.app/link", {
+          id,
+          title: editTitle,
+          link: editLink,
         });
         router.replace(router.asPath);
       } catch (err) {
@@ -49,14 +41,9 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
   async function handleDeleteClick(e) {
     e.stopPropagation();
     try {
-      const res = await axios({
-        method: "DELETE",
-        url: "/api/v1/deleteLink",
-        params: { id: paramsId, apiSecret: process.env.NEXT_PUBLIC_API_SECRET },
-        data: {
-          id,
-        },
-      });
+      await axios.delete(
+        `https://linkshrapi-production.up.railway.app/link?groupId=${paramsId}&linkId=${id}`
+      );
       router.replace(router.asPath);
     } catch (err) {
       setError(err);
