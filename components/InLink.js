@@ -51,7 +51,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
   }
   return (
     <>
-      <div>
+      <div className="">
         <div
           onClick={ViewDetails}
           className="text-white flex items-center justify-between p-5 mx-8 rounded-lg  bg-neutral-800"

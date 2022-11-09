@@ -185,13 +185,13 @@ const Id = ({ group, user }) => {
     .join("-");
   return (
     <>
-      <div className="overflow-auto scrollbar h-screen">
+      <div className="overflow-y-scroll scrollbar h-screen">
         <Head>
           <title>{group.name}</title>
         </Head>
         <LandingNav />
-        <div className="text-white max-w-md md:max-w-xl lg:max-w-5xl md:m-auto">
-          <nav className=" border-gray-200 px-2 sm:px-4 py-2.5 rounded bg-[#1B1B1B]">
+        <div className="text-white max-w-md md:max-w-xl lg:max-w-5xl md:m-auto border-l-2 border-blue-300">
+          <nav className="px-2 sm:px-4 py-2.5 rounded bg-[#1B1B1B]">
             <div className="container p-5 flex flex-wrap justify-between items-center mx-auto">
               <div className="flex items-center">
                 <FaLayerGroup className="w-10 h-10" />
@@ -237,20 +237,24 @@ const Id = ({ group, user }) => {
                   )}
                 </div>
               </div>
-              <div className="md:order-2 bg-neutral-800 p-3 rounded-lg mt-6 md:mt-0">
-                <p className="">
-                  Created By: <span className="font-normal">{user.name}</span>
-                </p>
-                <p className="">
-                  Date:<span className="font-normal"> {createdDate}</span>
-                </p>
-              </div>
             </div>
           </nav>
         </div>
+        <div className="max-w-md md:max-w-xl lg:max-w-5xl md:m-auto">
+          <div className="max-w-fit bg-blue-400 ">
+            <div className="p-3 mt-0">
+              <p>
+                Created By: <span className="font-semibold">{user.name}</span>
+              </p>
+              <p>
+                Date:<span className="font-semibold"> {createdDate}</span>
+              </p>
+            </div>
+          </div>
+        </div>
         {/* All Links */}
 
-        <div className="pt-5 grid grid-cols-1 max-w-lg md:max-w-xl lg:max-w-5xl md:m-auto gap-4 text-white">
+        <div className="pt-5  grid grid-cols-1 max-w-lg md:max-w-xl lg:max-w-5xl md:m-auto gap-4 text-white">
           {group.links.map((data) => (
             <InLink
               link={data.link}
