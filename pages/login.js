@@ -36,7 +36,7 @@ const Login = () => {
     if (email !== "" && password !== "") {
       try {
         const res = await axios.post(
-          "https://linkshrapi-production.up.railway.app/auth/login",
+          "https://muddy-erin-grasshopper.cyclic.app/auth/login",
           {
             email: email,
             password: password,

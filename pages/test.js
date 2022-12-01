@@ -7,11 +7,11 @@ const Test = () => {
   useEffect(() => {
     async function getGroup() {
       const getGroup = await axios.get(
-        `https://linkshrapi-production.up.railway.app/group/?id=${id}`
+        `https://muddy-erin-grasshopper.cyclic.app/group/?id=${id}`
       );
       const createdBy = getGroup?.data?.data?.createdBy;
       const getUser = await axios.get(
-        `https://linkshrapi-production.up.railway.app/user?id=${createdBy}`
+        `https://muddy-erin-grasshopper.cyclic.app/user?id=${createdBy}`
       );
       console.log(getUser.data.user);
       setData(getGroup);

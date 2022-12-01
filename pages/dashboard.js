@@ -21,7 +21,7 @@ const Dashboard = () => {
         try {
           const userId = user?._id;
           const res = await axios.get(
-            `https://linkshrapi-production.up.railway.app/group/${userId}`
+            `https://muddy-erin-grasshopper.cyclic.app/group/${userId}`
           );
           UIStore.update((s) => {
             s.createdGroup = res.data.groupByUser;

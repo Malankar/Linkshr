@@ -27,7 +27,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
     e.preventDefault();
     if (editLink.length !== 0 && editTitle.length !== 0) {
       try {
-        await axios.patch("https://linkshrapi-production.up.railway.app/link", {
+        await axios.patch("https://muddy-erin-grasshopper.cyclic.app/link", {
           id,
           title: editTitle,
           link: editLink,
@@ -42,7 +42,7 @@ const InLink = ({ link, title, isAuthorized, id, name, paramsId }) => {
     e.stopPropagation();
     try {
       await axios.delete(
-        `https://linkshrapi-production.up.railway.app/link?groupId=${paramsId}&linkId=${id}`
+        `https://muddy-erin-grasshopper.cyclic.app/link?groupId=${paramsId}&linkId=${id}`
       );
       router.replace(router.asPath);
     } catch (err) {

@@ -15,7 +15,7 @@ const FGroup = ({ title, id }) => {
     if (user) {
       try {
         await axios.delete(
-          `https://linkshrapi-production.up.railway.app/group/clone/${user?._id}?groupId=${id}`
+          `https://muddy-erin-grasshopper.cyclic.app/group/clone/${user?._id}?groupId=${id}`
         );
         router.reload();
       } catch (err) {

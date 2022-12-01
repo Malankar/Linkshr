@@ -28,7 +28,7 @@ const Forgotpass = () => {
       if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
         try {
           const res = await axios.get(
-            "https://linkshrapi-production.up.railway.app/user/forgotpass",
+            "https://muddy-erin-grasshopper.cyclic.app/user/forgotpass",
             {
               params: {
                 email,

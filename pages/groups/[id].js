@@ -40,7 +40,7 @@ const Id = ({ group, user }) => {
         try {
           const userId = loggedInUser?._id;
           const res = await axios.get(
-            `https://linkshrapi-production.up.railway.app/group/${userId}`
+            `https://muddy-erin-grasshopper.cyclic.app/group/${userId}`
           );
           setForkedGroups(res.data.forkedByUser);
         } catch (err) {
@@ -91,7 +91,7 @@ const Id = ({ group, user }) => {
     } else {
       try {
         const res = await axios.post(
-          `https://linkshrapi-production.up.railway.app/group/clone?id=${group._id}`,
+          `https://muddy-erin-grasshopper.cyclic.app/group/clone?id=${group._id}`,
           {
             name: groupTitle,
             links: group.links,
@@ -115,7 +115,7 @@ const Id = ({ group, user }) => {
       }
       try {
         const res = await axios.post(
-          `https://linkshrapi-production.up.railway.app/link/${group._id}`,
+          `https://muddy-erin-grasshopper.cyclic.app/link/${group._id}`,
           {
             title: urlTitle,
             link: url,
@@ -136,7 +136,7 @@ const Id = ({ group, user }) => {
   const isValidHttpUrl = useCallback(async (isUrl) => {
     try {
       const response = await axios.get(
-        `https://linkshrapi-production.up.railway.app/link/title?url=${isUrl.trim()}`
+        `https://muddy-erin-grasshopper.cyclic.app/link/title?url=${isUrl.trim()}`
       );
       if (response.data.title) {
         setUrlTitle(response.data.title);
@@ -158,7 +158,7 @@ const Id = ({ group, user }) => {
   async function changeTitle(e) {
     try {
       await axios.post(
-        "https://linkshrapi-production.up.railway.app/group/title",
+        "https://muddy-erin-grasshopper.cyclic.app/group/title",
         {
           id: group._id,
           name: groupTitle,
@@ -328,12 +328,12 @@ export async function getServerSideProps(context) {
   try {
     const { id } = context.query;
     const getGroup = await axios.get(
-      `https://linkshrapi-production.up.railway.app/group/?id=${id}`
+      `https://muddy-erin-grasshopper.cyclic.app/group/?id=${id}`
     );
     if (getGroup) {
       const createdBy = getGroup?.data?.data?.createdBy;
       const getUser = await axios.get(
-        `https://linkshrapi-production.up.railway.app/user?id=${createdBy}`
+        `https://muddy-erin-grasshopper.cyclic.app/user?id=${createdBy}`
       );
       return {
         props: {

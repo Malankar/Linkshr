@@ -100,7 +100,7 @@ const CreateGroup = ({ user, createdGroups }) => {
           if (grpTitle !== "") {
             try {
               const res = await axios.post(
-                "https://linkshrapi-production.up.railway.app/group",
+                "https://muddy-erin-grasshopper.cyclic.app/group",
                 {
                   name: grpTitle,
                   links: { title: urlTitle, link: url },
@@ -121,7 +121,7 @@ const CreateGroup = ({ user, createdGroups }) => {
         } else {
           try {
             const res = await axios.post(
-              `https://linkshrapi-production.up.railway.app/link/${option.id}`,
+              `https://muddy-erin-grasshopper.cyclic.app/link/${option.id}`,
               {
                 title: urlTitle,
                 link: url,
@@ -154,7 +154,7 @@ const CreateGroup = ({ user, createdGroups }) => {
   async function isValidHttpUrl(isUrl) {
     try {
       const response = await axios.get(
-        `https://linkshrapi-production.up.railway.app/link/title?url=${isUrl.trim()}`
+        `https://muddy-erin-grasshopper.cyclic.app/link/title?url=${isUrl.trim()}`
       );
       if (response.data.title) {
         setUrlTitle(response.data.title);

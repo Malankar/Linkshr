@@ -12,7 +12,7 @@ const Group = ({ title, id }) => {
   const deleteGroup = async () => {
     try {
       await axios.delete(
-        `https://linkshrapi-production.up.railway.app/group/${id}`
+        `https://muddy-erin-grasshopper.cyclic.app/group/${id}`
       );
       router.reload();
     } catch (err) {
