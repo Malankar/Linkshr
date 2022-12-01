@@ -185,15 +185,15 @@ const Id = ({ group, user }) => {
     .join("-");
   return (
     <>
-      <div className="overflow-y-scroll scrollbar h-screen">
+      <div className="overflow-hidden">
         <Head>
           <title>{group.name}</title>
         </Head>
         <LandingNav />
         <div className="text-white max-w-md md:max-w-xl lg:max-w-5xl md:m-auto">
           <nav className=" border-gray-200 px-2 sm:px-4 py-2.5 rounded bg-[#1B1B1B]">
-            <div className="container p-5 flex flex-wrap justify-between items-center mx-auto">
-              <div className="flex items-center">
+            <div className="p-5 flex justify-between items-center ">
+              <div className="flex items-center ">
                 <FaLayerGroup className="w-10 h-10" />
                 <input
                   type="text"
