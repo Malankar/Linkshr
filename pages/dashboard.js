@@ -54,7 +54,7 @@ const Dashboard = () => {
   return (
     <>
       {userData !== null ? (
-        <div className="overflow-auto scrollbar h-screen">
+        <div className="overflow-auto scrollbar h-screen bg-[#151515]">
           <Head>
             <title>Dashboard</title>
           </Head>

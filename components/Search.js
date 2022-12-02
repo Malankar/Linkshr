@@ -24,11 +24,11 @@ const Search = () => {
       <div className="grow w-14 mr-5">
         <div className="relative w-full">
           <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <BiSearchAlt className="text-black text-lg" />
+            <BiSearchAlt className="text-white text-lg" />
           </div>
           <button
             onClick={() => setModal(true)}
-            className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5  bg-white text-black border-gray-700 outline-none "
+            className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5  bg-[#383737] text-white border-[#383737] outline-none "
           >
             Search Links...
           </button>
@@ -36,7 +36,7 @@ const Search = () => {
             type="button"
             className="absolute inset-y-0 right-0 items-center pr-3 hidden text-white md:flex"
           >
-            <kbd className="px-2 py-1.5 text-xs font-semibold border rounded-lg bg-gray-600 text-gray-100 border-gray-500">
+            <kbd className="px-2 py-1.5 text-xs font-semibold border rounded-lg bg-gray-800 text-gray-400 border-gray-700">
               Ctrl+K
             </kbd>
           </button>

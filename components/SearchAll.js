@@ -36,10 +36,10 @@ const SearchAll = () => {
         <div className="relative mt-1">
           <div className="relative w-full">
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-              <BiSearchAlt className="text-black text-lg" />
+              <BiSearchAlt className="text-white text-lg" />
             </div>
             <Combobox.Input
-              className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5 text-black bg-white border-gray-700 outline-none "
+              className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5 text-white bg-[#383737] border-gray-700 outline-none "
               displayValue={(group) => group?.name}
               onChange={(event) => setQuery(event.target.value)}
             />
