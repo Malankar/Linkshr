@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { BiSearchAlt } from "react-icons/bi";
-import { BsArrowReturnRight } from "react-icons/bs";
+import { BsArrowReturnLeft, BsArrowReturnRight } from "react-icons/bs";
 import { UIStore } from "../store/UIStore";
 import { useRouter } from "next/router";
 
@@ -39,9 +39,10 @@ const SearchAll = () => {
               <BiSearchAlt className="text-white text-lg" />
             </div>
             <Combobox.Input
-              className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5 text-white bg-[#383737] border-gray-700 outline-none "
+              className="h-14 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5 text-white bg-[#15171B] border-gray-700 outline-none "
               displayValue={(group) => group?.name}
               onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search Links..."
             />
           </div>
           <Transition
@@ -51,7 +52,7 @@ const SearchAll = () => {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[#15171B] py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {filteredGroups.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-gray-200">
                   Nothing found.
@@ -76,17 +77,22 @@ const SearchAll = () => {
                               className={({ active }) =>
                                 `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                   active
-                                    ? "bg-blue-600 text-white"
+                                    ? "bg-[#39393b] text-white"
                                     : "text-white"
                                 }`
                               }
                               value={group._id}
                             >
-                              <div
-                                className="relative truncate cursor-default select-none py-2 text-white pr-4 "
-                                value={group._id}
-                              >
-                                {link.title}
+                              <div className="flex justify-between items-center">
+                                <div
+                                  className="relative truncate cursor-default select-none py-2 text-white pr-4 "
+                                  value={group._id}
+                                >
+                                  {link.title}
+                                </div>
+                                <div>
+                                  <BsArrowReturnLeft className="text-gray-500" />
+                                </div>
                               </div>
                             </Combobox.Option>
                           )

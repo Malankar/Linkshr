@@ -28,7 +28,7 @@ const Search = () => {
           </div>
           <button
             onClick={() => setModal(true)}
-            className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5  bg-[#383737] text-white border-[#383737] outline-none "
+            className="h-12 left-0 flex items-center border  text-sm rounded-lg w-full pl-10 p-2.5  bg-[#1d1d1d] text-white border-[#383838] outline-none "
           >
             Search Links...
           </button>
