@@ -33,9 +33,9 @@ const FGroup = ({ title, id }) => {
       <div>
         <div className="relative" onClick={handleRedirect}>
           <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <FaLayerGroup />
+            <FaLayerGroup className="w-5 h-5" />
           </div>
-          <span className="block p-4 pl-10 w-full text-sm rounded-lg border capitalize bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
+          <span className="block p-4 pl-12 w-full text-sm rounded-lg border capitalize bg-gray-800 border-gray-800 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
             {title}
           </span>
         </div>

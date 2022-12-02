@@ -44,8 +44,8 @@ const Navbar = ({ user }) => {
         }}
       >
         <div className="flex-none">
-          <div className="cursor-pointer flex items-center justify-around p-1 border-2 border-slate-700 bg-gray-800 rounded-lg">
-            <div className="border-2 border-blue-600 rounded-full">
+          <div className="cursor-pointer flex items-center justify-around py-1.5 px-1 border-2 border-gray-800 rounded-lg">
+            <div className="rounded-full">
               <Avatar
                 name={
                   name?.split(" ").length == 1
@@ -65,16 +65,16 @@ const Navbar = ({ user }) => {
           className={
             hidden
               ? "hidden"
-              : "absolute cursor-pointer z-10 w-36 right-4/4 mt-2 rounded-lg shadow bg-gray-700"
+              : "absolute cursor-pointer z-10 w-32 right-4/4 mt-2 rounded-lg shadow bg-gray-800"
           }
         >
           <ul
-            className="py-1 text-sm text-gray-200"
+            className="py-1 text-sm text-gray-400 hover:text-white"
             aria-labelledby="dropdownDefault"
           >
             <li className="flex items-center" onClick={Logout}>
               <MdLogout className="ml-2 h-5 w-5" />
-              <span className="block py-2 px-4 hover:text-white">Sign out</span>
+              <span className="block py-2 px-4 ">Sign Out</span>
             </li>
           </ul>
         </div>
